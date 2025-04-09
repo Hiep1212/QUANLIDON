@@ -1,0 +1,122 @@
+local player = game:GetService("Players").LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Ẩn một phần tên
+local function hideName(name)
+    local visibleLength = math.max(3, math.floor(#name * 0.5))
+    local hiddenPart = string.rep("*", #name - visibleLength)
+    return string.sub(name, 1, visibleLength) .. hiddenPart
+end
+
+-- Tạo GUI chính
+local nameHub = Instance.new("ScreenGui")
+nameHub.Name = "NameHub"
+nameHub.Parent = playerGui
+
+local mainFrame = Instance.new("Frame")
+mainFrame.Parent = nameHub
+mainFrame.Size = UDim2.new(0.28, 0, 0.33, 0)
+mainFrame.Position = UDim2.new(0.5, 0, 0.2, 0)
+mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+mainFrame.BackgroundTransparency = 0.2
+mainFrame.BorderSizePixel = 0
+mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+mainFrame.Active = true
+mainFrame.Draggable = true
+
+local uiCorner = Instance.new("UICorner")
+uiCorner.CornerRadius = UDim.new(0.15, 0)
+uiCorner.Parent = mainFrame
+
+-- Hiển thị thông tin User
+local function createLabel(parent, text, position)
+    local label = Instance.new("TextLabel")
+    label.Parent = parent
+    label.Size = UDim2.new(1, 0, 0.2, 0)
+    label.Position = UDim2.new(0, 0, position, 0)
+    label.BackgroundTransparency = 1
+    label.TextColor3 = Color3.fromRGB(255, 255, 255)
+    label.TextScaled = true
+    label.Font = Enum.Font.GothamBold
+    label.Text = text
+end
+
+createLabel(mainFrame, "👤 Tên: " .. hideName(player.Name), 0)
+
+-- Ô nhập đơn hàng
+local orderBox = Instance.new("TextBox")
+orderBox.Parent = mainFrame
+orderBox.Size = UDim2.new(1, 0, 0.2, 0)
+orderBox.Position = UDim2.new(0, 0, 0.2, 0)
+orderBox.BackgroundTransparency = 0.5
+orderBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+orderBox.TextScaled = true
+orderBox.Font = Enum.Font.GothamBold
+orderBox.Text = "Đơn hàng:"
+orderBox.ClearTextOnFocus = false
+orderBox.TextWrapped = true
+
+-- Xử lý nhập đơn hàng
+orderBox.FocusLost:Connect(function(enterPressed)
+    if enterPressed then
+        local orderText = orderBox.Text
+        print("Đơn hàng đã nhập: " .. orderText)
+
+        if orderText ~= "" then
+            print("Đơn hàng đã được xử lý: " .. orderText)
+        else
+            print("Không có nội dung đơn hàng.")
+        end
+    end
+end)
+
+-- Dòng chữ dev by minhhiepdz
+local creditLabel = Instance.new("TextLabel")
+creditLabel.Parent = mainFrame
+creditLabel.Size = UDim2.new(1, 0, 0.1, 0)
+creditLabel.Position = UDim2.new(0, 0, 0.9, 0)
+creditLabel.BackgroundTransparency = 1
+creditLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+creditLabel.TextScaled = true
+creditLabel.Font = Enum.Font.Gotham
+creditLabel.Text = "dev by minhhiepdz"
+creditLabel.TextStrokeTransparency = 0.8
+creditLabel.TextTransparency = 0.1
+creditLabel.TextWrapped = true
+
+-- Dòng chữ thank for using =_= ❤️
+local thankLabel = Instance.new("TextLabel")
+thankLabel.Parent = mainFrame
+thankLabel.Size = UDim2.new(1, 0, 0.1, 0)
+thankLabel.Position = UDim2.new(0, 0, 1.0, 0)
+thankLabel.BackgroundTransparency = 1
+thankLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+thankLabel.TextScaled = true
+thankLabel.Font = Enum.Font.Gotham
+thankLabel.Text = "thank for using =_= ❤️"
+thankLabel.TextStrokeTransparency = 0.8
+thankLabel.TextTransparency = 0.1
+thankLabel.TextWrapped = true
+
+-- Hình trái tim bên dưới cùng
+local heartImage = Instance.new("ImageLabel")
+heartImage.Parent = mainFrame
+heartImage.Size = UDim2.new(0.1, 0, 0.1, 0)
+heartImage.Position = UDim2.new(0.45, 0, 1.1, 0)
+heartImage.BackgroundTransparency = 1
+heartImage.Image = "rbxassetid://6031094670"
+
+-- Âm thanh Arise khi click GUI
+local ariseSound = Instance.new("Sound")
+ariseSound.SoundId = "rbxassetid://14993725089" -- âm thanh Arise chuẩn
+ariseSound.Volume = 1
+ariseSound.Parent = mainFrame
+
+mainFrame.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        ariseSound:Play()
+    end
+end)
+
+-- Thông báo hoàn thành
+print("Giao diện Roblox Manager đã được tạo thành công.")
